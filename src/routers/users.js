@@ -2,8 +2,8 @@
 
 const express=require('express');
 const User=require('../models/users') //Acqiring user model
-const signUpSchema=require('../middleware/joi')
-const loginSchema=require('../middleware/joi')
+const signUpSchema=require('../middleware/joi_signup')
+const loginSchema=require('../middleware/joi_login')
 const router= new express.Router()
 
 
@@ -29,6 +29,11 @@ router.post('/auth/register', async(req,res)=>{
 
 //POST route for login 
 router.post('/auth/login', async (req, res) => {
+
+    const {err,value}= loginSchema.validate(req.body)
+    if(err){
+        return res.status(404).send(err.message)
+    }
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()

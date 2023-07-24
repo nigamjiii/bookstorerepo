@@ -3,7 +3,7 @@
 const express=require('express')
 const Book=require('../models/books') //Acquiring book model
 const auth=require('../middleware/auth') //Acquiring auth
-const bookSchema=require('../middleware/joi')
+const bookSchema=require('../middleware/joi_book')
 const router=new express.Router();
 
 
